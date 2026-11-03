@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.wrangler/
+# 252 MB, melebihi batas GitHub 100 MB; simpan di Google Drive
+data.zip

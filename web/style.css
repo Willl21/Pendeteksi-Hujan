@@ -1,0 +1,37 @@
+:root { --bg: #f8fafc; --card: #fff; --fg: #0f172a; --muted: #64748b; --line: #e2e8f0; --accent: #0369a1; --hujan: #2563eb; --cerah: #d97706; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f172a; --card: #1e293b; --fg: #f1f5f9; --muted: #94a3b8; --line: #334155; --accent: #38bdf8; --hujan: #60a5fa; --cerah: #fbbf24; }
+}
+* { box-sizing: border-box; }
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; overscroll-behavior: none; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, sans-serif;
+  padding: calc(16px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+  max-width: 640px; margin-inline: auto; min-height: 100dvh;
+}
+h1 { font-size: 1.4rem; margin: 0 0 4px; }
+h2 { font-size: 1rem; margin: 24px 0 8px; color: var(--muted); font-weight: 600; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+button, .tombol {
+  font: inherit; padding: 10px 16px; border: 0; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer;
+  touch-action: manipulation; user-select: none; -webkit-user-select: none; transition: transform 100ms ease-out, opacity 100ms;
+}
+button.ghost, .tombol.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+button:active, .tombol:active { transform: scale(0.97); opacity: 0.85; }
+button:disabled { opacity: 0.5; }
+@media (hover: hover) and (pointer: fine) { button:hover, .tombol:hover { opacity: 0.9; } }
+.tombol input { display: none; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+.muted { color: var(--muted); font-size: 0.875rem; }
+.error { color: #dc2626; }
+.kesimpulan { font-size: 1.3rem; font-weight: 700; margin: 0 0 8px; }
+.bar { display: grid; grid-template-columns: 6rem 1fr 3rem; align-items: center; gap: 8px; margin: 6px 0; font-size: 0.9rem; }
+.bar .isi { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.bar .isi div { height: 100%; border-radius: 4px; transition: width 300ms ease-out; }
+.bar span:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+td { padding: 6px 0; border-top: 1px solid var(--line); }
+td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.foto { display: flex; gap: 12px; align-items: flex-start; }
+.foto img { width: 96px; height: 96px; object-fit: cover; border-radius: 10px; flex: none; }
