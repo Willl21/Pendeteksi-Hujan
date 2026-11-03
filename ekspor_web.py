@@ -34,6 +34,13 @@ with tempfile.TemporaryDirectory() as tmp:
     gambar.export(tmp)
     shutil.rmtree(OUT / "cuaca", ignore_errors=True)
     tfjs.convert_tf_saved_model(tmp, str(OUT / "cuaca"))
+# Download manager (mis. IDM) mencegat file .bin dan ngasih browser respon kosong -> ganti ekstensi
+model_json = json.load(open(OUT / "cuaca" / "model.json"))
+for grup in model_json["weightsManifest"]:
+    for i, nama in enumerate(grup["paths"]):
+        grup["paths"][i] = nama.replace(".bin", ".bobot")
+        (OUT / "cuaca" / nama).rename(OUT / "cuaca" / grup["paths"][i])
+json.dump(model_json, open(OUT / "cuaca" / "model.json", "w"))
 shutil.copy("labels.json", OUT / "labels.json")
 
 # 2. LSTM -> bobot mentah (JSON). Konversi TF.js bikin loop LSTM rusak / membengkak 13 MB,

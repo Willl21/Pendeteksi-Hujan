@@ -49,6 +49,11 @@ export function prediksiHujan(jam: Jam, sekarang: string, cfg: Config, bobot: Bo
   const depan = (v: string) => jam[v].slice(akhir + 1, akhir + 1 + cfg.ke_depan).map((n) => n ?? 0);
   return {
     hujan, cerah,
+    suhu: jam.temperature_2m[akhir] ?? 0,
+    perJam: depan("temperature_2m").map((suhu, i) => ({
+      jam: Number(jam.time[akhir + 1 + i].slice(11, 13)),
+      suhu, peluang: depan("precipitation_probability")[i] / 100, awan: depan("cloud_cover")[i],
+    })),
     openMeteo: {
       hujanMm: depan("precipitation").reduce((a, b) => a + b, 0),
       peluangHujan: Math.max(...depan("precipitation_probability")) / 100,
@@ -80,10 +85,11 @@ export function gabungkan(h: ReturnType<typeof prediksiHujan>, foto?: Record<str
   const hujan = rata("hujan"), cerah = rata("cerah");
   const beda = Math.max(...sumber.map((s) => s.hujan)) - Math.min(...sumber.map((s) => s.hujan));
 
-  const kesimpulan =
-    hujan >= 0.6 ? "Kemungkinan besar hujan" :
-    cerah >= 0.5 ? "Kemungkinan cerah" :
-    hujan < 0.35 ? "Berawan, kemungkinan tidak hujan" :
-    "Belum pasti, bisa hujan bisa tidak";
-  return { hujan, cerah, kesimpulan, sepakat: beda < 0.3 };
+  // tema dipakai web buat warna latar & ikon utama
+  const [tema, kesimpulan] =
+    hujan >= 0.6 ? ["hujan", "Kemungkinan besar hujan"] :
+    cerah >= 0.5 ? ["cerah", "Kemungkinan cerah"] :
+    hujan < 0.35 ? ["berawan", "Berawan, kemungkinan tidak hujan"] :
+    ["ragu", "Belum pasti, bisa hujan bisa tidak"];
+  return { hujan, cerah, tema: tema as "hujan" | "cerah" | "berawan" | "ragu", kesimpulan, sepakat: beda < 0.3 };
 }
